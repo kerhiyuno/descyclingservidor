@@ -1,13 +1,14 @@
 const { DataTypes } = require('sequelize');
-const connection = require ('../controllers/connectMysql');
+const { sequelize } = require ('../controllers/connectMysql');
 
 
-const Categoria = connection.define('categorias', {
+const Categoria = sequelize.define('categorias', {
 
     // Model attributes are defined here
     nombre: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
   }, {
       freezeTableName: true,

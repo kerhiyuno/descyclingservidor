@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
-const connection = require ('../controllers/connectMysql');
+const { sequelize } = require ('../controllers/connectMysql');
 
 
-const Producto = connection.define('productos', {
+const Producto = sequelize.define('productos', {
 
     // Model attributes are defined here
     nombre: {

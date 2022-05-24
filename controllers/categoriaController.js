@@ -1,4 +1,3 @@
-const connection = require ('./connectMysql');
 const Categoria = require ('../models/categorias');
 
 
