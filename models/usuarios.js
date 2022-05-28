@@ -29,6 +29,11 @@ const Usuario = sequelize.define('usuarios', {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true
+    },
+    google: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
   }, {
       freezeTableName: true,
