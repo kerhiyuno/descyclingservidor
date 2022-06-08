@@ -11,7 +11,7 @@ class Server {
         this.categoriasPath = '/api/categorias';
         this.productosPath = '/api/productos';
         this.usuariosPath = '/api/usuarios';
-        this.authPath = '/api/auth'
+        this.authPath = '/api/auth';
 
         this.conectarDB();
 

@@ -64,7 +64,6 @@ const usuariosPatch = (req, res = response) => {
 const borrarUsuario = async(req, res = response) => {
 
     const { id } = req.params;
-    const uid = req.uid;
 
     const borrado = await Usuario.update({ estado: false }, {
         where: {

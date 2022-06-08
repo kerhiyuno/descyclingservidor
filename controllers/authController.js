@@ -74,7 +74,7 @@ const GoogleSignIn = async (req, res = response) => {
             token
         });
     } catch (error) {
-        json.status(400).json({
+        res.status(400).json({
             ok: false,
             msg: 'El token no se pudo verificar'
         })
@@ -82,7 +82,21 @@ const GoogleSignIn = async (req, res = response) => {
 
 }
 
+const renovarToken = async( req, res = response ) =>{
+
+    const { usuario } = req;
+
+    // Generar el JWT
+    const token = await generarJWT( usuario.id );
+
+    res.json({
+        usuario,
+        token
+    })
+}
+
 module.exports = {
     login,
-    GoogleSignIn
+    GoogleSignIn,
+    renovarToken
 }

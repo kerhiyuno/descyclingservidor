@@ -26,9 +26,14 @@ const Producto = sequelize.define('productos', {
         allowNull: true
     },
     categoriaId: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.INTEGER,
         allowNull: true
     },
+    estado: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
+    }
   }, {
       freezeTableName: true,
       timestamps: false

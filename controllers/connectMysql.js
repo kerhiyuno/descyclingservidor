@@ -17,7 +17,11 @@ try {
 }
 
 const crearTablas= async () => {
+  try {
     await sequelize.sync();
+  } catch (error) {
+    console.log(error);
+  }
 }
 crearTablas();
 

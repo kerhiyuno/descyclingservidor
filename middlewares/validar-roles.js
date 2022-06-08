@@ -1,7 +1,7 @@
 const { response,request } = require("express")
 
 
-const esAdmin = (req = request,res = response) => {
+const esAdmin = (req = request,res = response,next) => {
     if(!req.usuario){
         return res.status(500).json({
             msg: "Se quiere verificar el rol sin validar el token primero"
@@ -14,6 +14,7 @@ const esAdmin = (req = request,res = response) => {
             msg: `El usuario ${nombre} no es administrador`
         });
     }
+    next();
 }
 
 const tieneRol = ( ...roles  ) => {

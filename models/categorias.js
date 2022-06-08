@@ -10,6 +10,11 @@ const Categoria = sequelize.define('categorias', {
       allowNull: false,
       unique: true
     },
+    estado: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
+    },
   }, {
       freezeTableName: true,
       timestamps: false
