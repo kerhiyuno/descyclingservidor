@@ -9,9 +9,10 @@ async function googleVerify(token = '') {
       // Or, if multiple clients access the backend:
       //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
   });
-  const { name, picture, email} = ticket.getPayload();
+  const { given_name, family_name, picture, email} = ticket.getPayload();
   return {
-      nombre: name,
+      nombre: given_name,
+      apellido: family_name,
       img: picture,
       correo: email
   }

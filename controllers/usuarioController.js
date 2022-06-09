@@ -21,8 +21,8 @@ const obtenerUsuarios = async(req = request, res = response) => {
 
 const crearUsuario = async(req, res = response) => {
     
-    const { nombre, correo, password, rol } = req.body;
-    const usuario = Usuario.build({ nombre, correo, password, rol });
+    const { nombre, apellido, correo, password, rol } = req.body;
+    const usuario = Usuario.build({ nombre, apellido, correo, password, rol });
     console.log(nombre, correo, password, rol);
     // Encriptar la contraseña
     const salt = bcryptjs.genSaltSync();

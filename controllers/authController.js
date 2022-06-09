@@ -5,6 +5,8 @@ const { generarJWT } = require('../helpers/generar-jwt');
 const { googleVerify } = require('../helpers/google-verify');
 const Usuario = require('../models/usuarios');
 
+
+
 const login = async (req, res = response) => {
     
     const { correo, password } = req.body;
@@ -49,13 +51,14 @@ const GoogleSignIn = async (req, res = response) => {
 
     const {id_token} = req.body;
     try {
-        const { nombre, img, correo } = await googleVerify(id_token);
+        const { nombre, apellido, img, correo } = await googleVerify(id_token);
         let usuario = await Usuario.findOne({where:{correo}})
         if(!usuario){
             const datos = {
                 nombre,
                 correo,
                 img,
+                apellido,
                 password: ':D',
                 rol: 'usuario',
                 google: true
@@ -78,6 +81,7 @@ const GoogleSignIn = async (req, res = response) => {
             ok: false,
             msg: 'El token no se pudo verificar'
         })
+        console.log(error);
     }
 
 }
