@@ -2,7 +2,8 @@ const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(process.env.DBDATABASE, process.env.DBUSER, process.env.DBPASSWORD, {
     host: process.env.DBHOST,
-    dialect: 'mysql'
+    dialect: 'mysql',
+    logging: true,
   });
 
 const dbconnection = async () => {
@@ -14,6 +15,17 @@ try {
   }
 
 }
-dbconnection();
 
-module.exports=sequelize;
+const crearTablas= async () => {
+  try {
+    await sequelize.sync();
+  } catch (error) {
+    console.log(error);
+  }
+}
+crearTablas();
+
+module.exports = {
+  dbconnection,
+  sequelize
+}

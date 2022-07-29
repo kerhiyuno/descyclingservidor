@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
-const connection = require ('../controllers/connectMysql');
+const { sequelize } = require ('../controllers/connectMysql');
 
 
-const Producto = connection.define('productos', {
+const Producto = sequelize.define('productos', {
 
     // Model attributes are defined here
     nombre: {
@@ -26,9 +26,14 @@ const Producto = connection.define('productos', {
         allowNull: true
     },
     categoriaId: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.INTEGER,
         allowNull: true
     },
+    estado: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
+    }
   }, {
       freezeTableName: true,
       timestamps: false
