@@ -1,5 +1,6 @@
 const { response } = require('express');
 const Producto = require ('../models/productos');
+const Categoria = require ('../models/categorias');
 
 
 const crearProducto = async (req,res) => {
@@ -27,7 +28,12 @@ const crearProducto = async (req,res) => {
 
 const obtenerProductos  = async (req,res) => {
     try {
-        const productos = await Producto.findAll();
+        const productos = await Producto.findAll({ include: [{
+            model: Categoria,
+            attributes:['nombre']
+          },
+        ],
+    });
         res.json(productos);
     } catch (error) {
         console.log(error);
