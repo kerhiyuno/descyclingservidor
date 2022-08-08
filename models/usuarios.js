@@ -38,7 +38,11 @@ const Usuario = sequelize.define('usuarios', {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
-    }
+    },
+    refreshToken: {
+        type: DataTypes.STRING,
+        defaultValue: ''
+    },
   }, {
       freezeTableName: true,
       timestamps: false
