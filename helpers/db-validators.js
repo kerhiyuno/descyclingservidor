@@ -4,7 +4,7 @@ const Usuario = require('../models/usuarios');
 
 //Verificar su el correo existe
 const correoExiste =  async ( correo = '') => {
-    const existe = await Usuario.findOne({ where: { correo: correo } });
+    const existe = await Usuario.findOne({ where: { correo } });
     if (existe) {
         console.log("ya existe");
         console.log(existe);
@@ -13,7 +13,7 @@ const correoExiste =  async ( correo = '') => {
 }
 
 const usuarioExistePorId =  async ( id = '') => {
-    const existe = await Usuario.findOne({ where: { id: id } });
+    const existe = await Usuario.findOne({ where: { id } });
     console.log(existe);
     console.log(!existe);
     if (!existe) {
@@ -22,14 +22,14 @@ const usuarioExistePorId =  async ( id = '') => {
 }
 
 const categoriaExistePorId = async (id = '') => {
-    const existe = await Categoria.findOne({ where: { id: id } });
+    const existe = await Categoria.findOne({ where: { id } });
     if (!existe) {
         throw new Error(`El id de categoria ${id} no existe`);
     }
 }
 
 const productoExistePorId = async (id = '') => {
-    const existe = await Producto.findOne({ where: { id: id } });
+    const existe = await Producto.findOne({ where: { id } });
     if (!existe) {
         throw new Error(`El id de producto ${id} no existe`);
     }
