@@ -43,6 +43,15 @@ const Usuario = sequelize.define('usuarios', {
         type: DataTypes.STRING,
         defaultValue: ''
     },
+    confirmado: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
+    tokenConfirmacion: {
+        type: DataTypes.STRING,
+        defaultValue: ''
+    },
   }, {
       freezeTableName: true,
       timestamps: false
