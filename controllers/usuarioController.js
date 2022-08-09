@@ -20,16 +20,19 @@ const obtenerUsuarios = async(req = request, res = response) => {
 }
 
 const crearUsuario = async(req, res = response) => {
-    
-    const { nombre, apellido, correo, password, rol } = req.body;
-    const usuario = Usuario.build({ nombre, apellido, correo, password, rol });
-    console.log(nombre, correo, password, rol);
-    // Encriptar la contraseña
-    const salt = bcryptjs.genSaltSync();
-    usuario.password = bcryptjs.hashSync( password, salt );
 
-    // Guardar en BD
-    await usuario.save();
+    try {
+        const { nombre, apellido, correo, password, rol } = req.body;
+        const usuario = Usuario.build({ nombre, apellido, correo, password, rol });
+        console.log(nombre, correo, password, rol);
+        // Encriptar la contraseña
+        const salt = bcryptjs.genSaltSync();
+        usuario.password = bcryptjs.hashSync( password, salt );
+        // Guardar en BD
+        await usuario.save();
+    } catch (error) {
+        console.log(error);
+    }
 
     res.json({
         usuario
@@ -52,6 +55,7 @@ const usuariosPut = async(req, res = response) => {
         },
       });
     const usuarioactualizado = await Usuario.findByPk(id);
+
     res.json(usuarioactualizado);
 }
 
@@ -71,6 +75,7 @@ const borrarUsuario = async(req, res = response) => {
         }
       });
     const usuarioEliminado = await Usuario.findByPk(id);
+    
     res.json({usuarioEliminado});
 }
 

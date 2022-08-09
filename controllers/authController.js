@@ -41,7 +41,8 @@ const login = async (req, res = response) => {
             msg: 'login ok',
             usuario,
             accessToken,
-            refreshToken
+            refreshToken,
+            google: false
         })
     } catch (error) {
         console.log(error);
