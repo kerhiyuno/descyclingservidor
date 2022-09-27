@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { crearUsuario, obtenerUsuarios, usuariosPut, borrarUsuario } = require ('../controllers/usuarioController')
+const { crearUsuario, obtenerUsuarios, usuariosPut, borrarUsuario, confirmar, olvidePassword, comprobarToken, nuevoPassword} = require ('../controllers/usuarioController')
 const  { check } = require('express-validator');
 const { correoExiste, usuarioExistePorId } = require('../helpers/db-validators');
 
@@ -34,4 +34,12 @@ router.delete('/:id', [
     validarCampos
 ], borrarUsuario
 );
+
+router.get('/confirmar/:token',confirmar
+);
+
+router.post('/olvide-password', olvidePassword);
+router.get('/olvide-password/:token', comprobarToken);
+router.post('/olvide-password/:token', nuevoPassword);
+
 module.exports = router;

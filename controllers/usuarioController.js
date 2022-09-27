@@ -4,7 +4,6 @@ const {generarId} = require('../helpers/generarId.js')
 const Usuario = require('../models/usuarios');
 
 
-
 const obtenerUsuarios = async(req = request, res = response) => {
     
     const usuarios = await Usuario.findAll({  
@@ -24,20 +23,19 @@ const crearUsuario = async(req, res = response) => {
     try {
         const { nombre, apellido, correo, password, rol } = req.body;
         const usuario = Usuario.build({ nombre, apellido, correo, password, rol });
-        usuario.tokenConfirmacion = generarId();
+        usuario.token = generarId();
         console.log(nombre, correo, password, rol);
         // Encriptar la contraseña
         const salt = bcryptjs.genSaltSync();
         usuario.password = bcryptjs.hashSync( password, salt );
         // Guardar en BD
         await usuario.save();
+        res.json({
+            usuario
+        });
     } catch (error) {
         console.log(error);
     }
-
-    res.json({
-        usuario
-    });
 }
 
 const usuariosPut = async(req, res = response) => {
@@ -80,8 +78,68 @@ const borrarUsuario = async(req, res = response) => {
     res.json({usuarioEliminado});
 }
 
+const confirmar = async (req, res) => {
 
+    const { token } = req.params;
+    try {
+        const usuarioConfirmar = await Usuario.findOne({ where: { token } });
+        console.log(usuarioConfirmar);
+        usuarioConfirmar.confirmado = true;
+        usuarioConfirmar.token = '';
+        if (!usuarioConfirmar){
+            res.status(403).json({msg: "Token no valido"});
+        }
+        await usuarioConfirmar.save();
+        res.json({ msg: "Usuario confirmado"});
+    } catch (error) {
+        console.log(error)
+    }
+}
 
+const olvidePassword = async (req, res) => {
+
+    const { correo } = req.body;
+    try {
+        const usuario = await Usuario.findOne({ where: { correo }})
+        if (!usuario){
+            res.status(403).json({msg: "El usuario no existe"});
+        }
+        usuario.token = generarId();
+        await usuario.save();
+        res.json({ msg: "Hemos enviado un email con las instrucciones"});
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const comprobarToken = async (req, res) => {
+    const { token } = req.params;
+    const tokenValido = await Usuario.findOne({ where: { token }});
+    if (tokenValido){
+        res.json({ msg: "Token valido y el usuario existe"});
+    } else {
+        return res.status(404).json({
+            msg: 'Token no válido'
+        })
+    }
+}
+
+const nuevoPassword = async (req, res) => {
+    const { token } = req.params;
+    const { password } = req.body;
+    const usuario = await Usuario.findOne({ where: { token }});
+    if (usuario){
+        const salt = bcryptjs.genSaltSync();
+        usuario.password = bcryptjs.hashSync( password, salt );
+        usuario.token = '';
+        await usuario.save();
+        res.json({ msg: "Password modificada correctamente"});
+    } else {
+        return res.status(404).json({
+            msg: 'Token no válido'
+        })
+    }
+}
 
 module.exports = {
     obtenerUsuarios,
@@ -89,4 +147,8 @@ module.exports = {
     usuariosPut,
     usuariosPatch,
     borrarUsuario,
+    confirmar,
+    olvidePassword,
+    comprobarToken,
+    nuevoPassword
 }

@@ -48,7 +48,7 @@ const Usuario = sequelize.define('usuarios', {
         allowNull: false,
         defaultValue: false
     },
-    tokenConfirmacion: {
+    token: {
         type: DataTypes.STRING,
         defaultValue: ''
     },
