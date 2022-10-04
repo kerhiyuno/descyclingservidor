@@ -1,6 +1,7 @@
 const { response, request } = require('express');
 const bcryptjs = require('bcryptjs');
 const {generarId} = require('../helpers/generarId.js')
+const {emailRegistro} = require('../helpers/email');
 const Usuario = require('../models/usuarios');
 
 
@@ -30,6 +31,11 @@ const crearUsuario = async(req, res = response) => {
         usuario.password = bcryptjs.hashSync( password, salt );
         // Guardar en BD
         await usuario.save();
+        emailRegistro({
+            nombre,
+            correo,
+            token: usuario.token
+        })
         res.json({
             usuario
         });
@@ -84,13 +90,13 @@ const confirmar = async (req, res) => {
     try {
         const usuarioConfirmar = await Usuario.findOne({ where: { token } });
         console.log(usuarioConfirmar);
+        if (!usuarioConfirmar){
+            return res.status(403).json({msg: "Token no valido"});
+        }
         usuarioConfirmar.confirmado = true;
         usuarioConfirmar.token = '';
-        if (!usuarioConfirmar){
-            res.status(403).json({msg: "Token no valido"});
-        }
         await usuarioConfirmar.save();
-        res.json({ msg: "Usuario confirmado"});
+        return res.json({ msg: "Usuario confirmado"});
     } catch (error) {
         console.log(error)
     }
