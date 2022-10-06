@@ -27,10 +27,39 @@ const emailRegistro = async (datos) => {
      } catch (error) {
         console.log(error);
      }
-    
+
+}
+
+const emailOlvidePassword = async (datos) => {
+
+    const { nombre, correo, token } = datos;
+
+    const transport = nodemailer.createTransport({
+        host: "smtp.mailtrap.io",
+        port: 2525,
+        auth: {
+          user: "61fd37b1f52fe3",
+          pass: "92573637c874dc"
+        }
+    });
+
+     try {
+        const info = await transport.sendMail({
+            from: "reciclaje",
+            to: correo,
+            subject: "Reciclaje - Cambia tu contraseña",
+            text: "Cambia tu contraseña",
+            html: `<p>hola: ${nombre} Cambia tu contraseña en el siguiente enlace:</p>
+            <a href="${process.env.FRONTEND_URL}/nueva-password/${token}">Cambiar contraseña</a>
+            `
+        });  
+     } catch (error) {
+        console.log(error);
+     }
 
 }
 
 module.exports = {
-    emailRegistro
+    emailRegistro,
+    emailOlvidePassword
 }

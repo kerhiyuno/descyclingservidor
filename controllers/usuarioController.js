@@ -1,7 +1,7 @@
 const { response, request } = require('express');
 const bcryptjs = require('bcryptjs');
 const {generarId} = require('../helpers/generarId.js')
-const {emailRegistro} = require('../helpers/email');
+const {emailRegistro,emailOlvidePassword} = require('../helpers/email');
 const Usuario = require('../models/usuarios');
 
 
@@ -112,6 +112,11 @@ const olvidePassword = async (req, res) => {
         }
         usuario.token = generarId();
         await usuario.save();
+        emailOlvidePassword({
+            nombre: usuario.nombre,
+            correo: usuario.correo,
+            token: usuario.token
+        });
         res.json({ msg: "Hemos enviado un email con las instrucciones"});
     } catch (error) {
         console.log(error);
