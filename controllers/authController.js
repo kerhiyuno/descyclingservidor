@@ -25,6 +25,12 @@ const login = async (req, res = response) => {
             })
         }
 
+        if (!usuario.confirmado){
+            return res.status(400).json({
+                msg: "Tu cuenta no ha sido confirmada"
+            })
+        }
+
         const passwordvalida = bcryptjs.compareSync( password, usuario.password);
 
         if (!passwordvalida){
