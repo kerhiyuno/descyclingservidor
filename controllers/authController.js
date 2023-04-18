@@ -46,6 +46,7 @@ const login = async (req, res = response) => {
         res.json({
             msg: 'login ok',
             usuario,
+            nombre: usuario.nombre,
             accessToken,
             refreshToken,
             google: false
